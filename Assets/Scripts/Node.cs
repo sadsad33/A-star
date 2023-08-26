@@ -27,6 +27,12 @@ public class Node : IHeapItem<Node> {
         set { heapIndex = value; }
     }
 
+
+    /* 대상 값.CompareTo(비교 값) 의 결과
+     * 대상 값 < 비교 값의 경우 -1
+     * 대상 값 == 비교 값의 경우 0
+     * 대상 값 > 비교 값의 경우 1
+     */
     public int CompareTo(Node nodeToCompare){
         int compare = fCost.CompareTo(nodeToCompare.fCost);
         if (compare == 0)
