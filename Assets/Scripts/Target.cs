@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    private Vector3 moveDir;
-    private float moveSpeed = 3f;
-
+    float moveSpeed = 8f;
+    float speedX, speedY;
     private void Update()
     {
         Move();
@@ -14,11 +13,14 @@ public class Target : MonoBehaviour
 
     private void Move()
     {
-        moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            moveSpeed = 16f;
+        } else {
+            moveSpeed = 8f;
+        }
 
-        transform.LookAt(transform.position + moveDir);
-        moveSpeed = Input.GetButton("Run") ? moveSpeed * 2 : moveSpeed;
-
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        speedX = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        speedY = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        transform.Translate(speedX, 0, speedY);
     }
 }
