@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 901425204}
   - component: {fileID: 901425203}
   - component: {fileID: 901425202}
+  - component: {fileID: 901425206}
   m_Layer: 0
   m_Name: Tracer
   m_TagString: Untagged
@@ -1054,6 +1055,19 @@ Transform:
   m_Father: {fileID: 25322162}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &901425206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901425201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 428530c9a31f68447ad657cd0f0b5286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 22894688}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,6 +1843,7 @@ GameObject:
   - component: {fileID: 1892582714}
   - component: {fileID: 1892582713}
   - component: {fileID: 1892582715}
+  - component: {fileID: 1892582716}
   m_Layer: 8
   m_Name: A*Manager
   m_TagString: Untagged
@@ -1848,7 +1863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2524e5b295570634580d95d4fe0ca822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlyDisplayPathGizmos: 1
+  displayGridGizmos: 0
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 256
@@ -1881,8 +1896,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ebac09b4b83cc40b06412fa70578db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tracer: {fileID: 901425205}
-  target: {fileID: 22894688}
+--- !u!114 &1892582716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892582712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a571c43fefbbd4595b61f236a593e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2095343640
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,48 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ANode : IHeapItem<ANode>
-{
+
+//길찾기에 사용할 노드클래스
+public class Node : IHeapItem<Node> {
     public bool isWalkable;
     public Vector3 worldPos;
     public int gridX, gridY;
     public int gCost, hCost;
-    public ANode parentNode;
+    public Node parentNode;
     int heapIndex;
 
-    // 생성자
-    public ANode(bool _walkAble, Vector3 _worldPos, int _gridX, int _gridY) 
-    {
+    public Node(bool _walkAble, Vector3 _worldPos, int _gridX, int _gridY){
         isWalkable = _walkAble;
         worldPos = _worldPos;
         gridX = _gridX;
         gridY = _gridY;
     }
-    
-    public int fCost
-    {
+
+    public int fCost{
         get { return gCost + hCost; }
     }
 
-    public int HeapIndex
-    {
-        get
-        {
-            return heapIndex;
-        }
-        set
-        {
-            heapIndex = value;
-        }
+    public int HeapIndex {
+        get { return heapIndex; }
+        set { heapIndex = value; }
     }
 
-    public int CompareTo(ANode nodeToCompare)
-    {
+    public int CompareTo(Node nodeToCompare){
         int compare = fCost.CompareTo(nodeToCompare.fCost);
-        if(compare == 0)
-        {
+        if (compare == 0)
             compare = hCost.CompareTo(nodeToCompare.hCost);
-        }
         return -compare;
     }
 }
