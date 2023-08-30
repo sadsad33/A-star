@@ -11,8 +11,8 @@ public class Node : IHeapItem<Node> {
     public Node parentNode;
     int heapIndex;
 
-    public Node(bool _walkAble, Vector3 _worldPos, int _gridX, int _gridY){
-        isWalkable = _walkAble;
+    public Node(bool _isWalkable, Vector3 _worldPos, int _gridX, int _gridY){
+        isWalkable = _isWalkable;
         worldPos = _worldPos;
         gridX = _gridX;
         gridY = _gridY;

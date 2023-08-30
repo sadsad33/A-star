@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,8 +23,15 @@ public class PathFinding : MonoBehaviour{
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
 
+        Debug.Log("시작 노드 : ");
+        Debug.Log("시작 월드 좌표 : " + startPos);
         Node startNode = grid.GetNodeFromWorldPoint(startPos);
+        Debug.Log("시작 그리드 좌표 : (" + startNode.gridX + " , " + startNode.gridY + ")");
+        
+        Debug.Log("도착 노드 : ");
+        Debug.Log("타겟 월드좌표: " + targetPos);
         Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
+        Debug.Log("타겟 그리드 좌표 : (" + targetNode.gridX + ", " + targetNode.gridY + ")");
 
         if (startNode.isWalkable && targetNode.isWalkable){
             Heap<Node> openList = new Heap<Node>(grid.MaxSize);
@@ -58,8 +64,10 @@ public class PathFinding : MonoBehaviour{
             }
         }
         yield return null;
-        if (pathSuccess)
+        if (pathSuccess) {
             waypoints = RetracePath(startNode, targetNode);
+            Debug.Log("경로 길이 : " + waypoints.Length);
+        }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 
