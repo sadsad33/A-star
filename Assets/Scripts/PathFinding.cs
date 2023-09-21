@@ -52,7 +52,7 @@ public class PathFinding : MonoBehaviour{
                 foreach (Node neighbour in grid.GetNeighbours(currentNode)){
                     if (!neighbour.isWalkable || closedList.Contains(neighbour)) continue;
 
-                    int newCurrentToNeighbourCost = currentNode.gCost + GetDistanceCost(currentNode, neighbour);
+                    int newCurrentToNeighbourCost = currentNode.gCost + GetDistanceCost(currentNode, neighbour) + neighbour.movementPenalty;
                     if (newCurrentToNeighbourCost < neighbour.gCost || !openList.Contains(neighbour)){
                         neighbour.gCost = newCurrentToNeighbourCost;
                         neighbour.hCost = GetDistanceCost(neighbour, targetNode);
@@ -79,6 +79,7 @@ public class PathFinding : MonoBehaviour{
             path.Add(currentNode);
             currentNode = currentNode.parentNode;
         }
+        grid.path = path;
         Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
         return waypoints;

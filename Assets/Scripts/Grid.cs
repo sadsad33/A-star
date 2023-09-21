@@ -19,8 +19,8 @@ public class Grid : MonoBehaviour {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-        correctionX = gridSizeX/2 - transform.position.x;
-        correctionY = gridSizeY/2 - transform.position.z;
+        correctionX = gridSizeX / 2 - transform.position.x;
+        correctionY = gridSizeY / 2 - transform.position.z;
         Debug.Log("correctionX : " + correctionX);
         Debug.Log("correctionY : " + correctionY);
         CreateGrid();
@@ -39,11 +39,32 @@ public class Grid : MonoBehaviour {
             for (int y = 0; y < gridSizeY; y++) {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+                grid[x, y] = new Node(walkable, worldPoint, x, y, 0);
+            }
+        }
+        SetPenalty(grid);
+    }
+    void SetPenalty(Node[,] grid) {
+        for (int x = 0; x < 100; x++) {
+            for(int y = 0; y < 100; y++) {
+                if (!grid[x, y].isWalkable) {
+
+                    for (int i = -2; i <= 2; i++) {
+                        for (int j = -2; j <= 2; j++) {
+                            if (i == 0 && j == 0) continue;
+                            int checkX = x + i;
+                            int checkY = y + j;
+ 
+                            if(checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY) {
+                                grid[checkX, checkY].movementPenalty = 100;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-    
+   
     public List<Node> GetNeighbours(Node node) {
         List<Node> neighbours = new List<Node>();
 
@@ -74,7 +95,7 @@ public class Grid : MonoBehaviour {
 
         float percentX = (worldPosition.x + correctionX) / gridWorldSize.x;
         float percentY = (worldPosition.z + correctionY) / gridWorldSize.y;
-        
+
         Debug.Log("백분율 : " + percentX + ", " + percentY);
         // x 좌표와 y좌표를 0과 1사이의 값으로 만든다.
         // 그리드 내의 좌표를 제외하고 전부 제외할 수 있다.
@@ -90,13 +111,17 @@ public class Grid : MonoBehaviour {
         Debug.Log("그리드 y좌표 : " + y);
         return grid[x, y];
     }
-  
+    public List<Node> path; 
     void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
         if (grid != null && displayGridGizmos) {
             foreach (Node n in grid) {
                 Gizmos.color = (n.isWalkable) ? Color.white : Color.red;
+                if(path != null) {
+                    if (path.Contains(n))
+                        Gizmos.color = Color.black;
+                }
                 Gizmos.DrawCube(n.worldPos, Vector3.one * (nodeDiameter - .1f));
             }
         }
