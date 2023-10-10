@@ -29,11 +29,11 @@ public class Grid : MonoBehaviour {
         get { return gridSizeX * gridSizeY; }
     }
 
-    // ÇöÀç ¸ÊÀÇ ¿ùµåÁÂÇ¥¸¦ Áß½ÉÀ¸·Î ±×¸®µå¸¦ ¸¸µç´Ù.
-    // ¹æ¹®ÇÒ¼ö ÀÖ´Â ³ëµå¿Í ¹æ¹® ºÒ°¡´ÉÇÑ ³ëµå¸¦ ¿©±â¼­ °¡·Á³½´Ù.
+    // í˜„ìž¬ ë§µì˜ ì›”ë“œì¢Œí‘œë¥¼ ì¤‘ì‹¬ìœ¼ë¡œ ê·¸ë¦¬ë“œë¥¼ ë§Œë“ ë‹¤.
+    // ë°©ë¬¸í• ìˆ˜ ìžˆëŠ” ë…¸ë“œì™€ ë°©ë¬¸ ë¶ˆê°€ëŠ¥í•œ ë…¸ë“œë¥¼ ì—¬ê¸°ì„œ ê°€ë ¤ë‚¸ë‹¤.
     void CreateGrid() {
         grid = new Node[gridSizeX, gridSizeY];
-        // ¿ùµå ÁÂÇ¥ÀÇ ÁÂÃø ÃÖÇÏ´Ü ÁÂÇ¥¸¦ ±¸ÇÑ´Ù. ÇØ´ç ÁÂÇ¥´Â ±×¸®µå »ó¿¡¼­ (0,0)ÀÌ µÈ´Ù.
+        // ì›”ë“œ ì¢Œí‘œì˜ ì¢Œì¸¡ ìµœí•˜ë‹¨ ì¢Œí‘œë¥¼ êµ¬í•œë‹¤. í•´ë‹¹ ì¢Œí‘œëŠ” ê·¸ë¦¬ë“œ ìƒì—ì„œ (0,0)ì´ ëœë‹¤.
         Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
         for (int x = 0; x < gridSizeX; x++) {
             for (int y = 0; y < gridSizeY; y++) {
@@ -68,7 +68,7 @@ public class Grid : MonoBehaviour {
     public List<Node> GetNeighbours(Node node) {
         List<Node> neighbours = new List<Node>();
 
-        // ÁÖº¯ 8¹æÇâÀ» Å½»öÇÑ´Ù.
+        // ì£¼ë³€ 8ë°©í–¥ì„ íƒìƒ‰í•œë‹¤.
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 if (x == 0 && y == 0) continue;
@@ -83,32 +83,29 @@ public class Grid : MonoBehaviour {
         return neighbours;
     }
 
-    // ¸ÊÀÇ ¿ùµå ÁÂÇ¥°¡ À½¼ö¶ó°í ÇÑ´Ù¸é,
-    // ±×¸®µåÀÇ ÇÑº¯ÀÇ ±æÀÌº¸´Ù ¿ùµå ÁÂÇ¥ÀÇ °¢ ±¸¼º¼ººÐÀÇ Àý´ë°ªÀÌ ¿ùµîÈ÷ Å©´Ù¸é ¾î¶»°Ô ÇØ¾ß ÇÒ±î??
-
-    //¿ùµå ÁÂÇ¥·ÎºÎÅÍ ±×¸®µå ÁÂÇ¥¸¦ ±¸ÇÑ´Ù.
+    //ì›”ë“œ ì¢Œí‘œë¡œë¶€í„° ê·¸ë¦¬ë“œ ì¢Œí‘œë¥¼ êµ¬í•œë‹¤.
     public Node GetNodeFromWorldPoint(Vector3 worldPosition) {
-        //¿ùµåÁÂÇ¥ÀÇ Áß½É (0, 0) À» ±×¸®µå ÁÂÇ¥ÀÇ Áß½É(gridWorldSize.x / 2, gridWorldSize.y / 2) °ú ¸ÂÃçÁÖ±â À§ÇØ xÁÂÇ¥¿Í yÁÂÇ¥¿¡ °ªÀ» ´õÇÑ´Ù.
-        //ÀÌÈÄ ±×¸®µåÀÇ Å©±â·Î ³ª´² ¹éºÐÀ²·Î º¯È¯ÇÑ´Ù.
+        //ì›”ë“œì¢Œí‘œì˜ ì¤‘ì‹¬ (0, 0) ì„ ê·¸ë¦¬ë“œ ì¢Œí‘œì˜ ì¤‘ì‹¬(gridWorldSize.x / 2, gridWorldSize.y / 2) ê³¼ ë§žì¶°ì£¼ê¸° ìœ„í•´ xì¢Œí‘œì™€ yì¢Œí‘œì— ê°’ì„ ë”í•œë‹¤.
+        //ì´í›„ ê·¸ë¦¬ë“œì˜ í¬ê¸°ë¡œ ë‚˜ëˆ  ë°±ë¶„ìœ¨ë¡œ ë³€í™˜í•œë‹¤.
         //float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
         //float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
 
         float percentX = (worldPosition.x + correctionX) / gridWorldSize.x;
         float percentY = (worldPosition.z + correctionY) / gridWorldSize.y;
 
-        Debug.Log("¹éºÐÀ² : " + percentX + ", " + percentY);
-        // x ÁÂÇ¥¿Í yÁÂÇ¥¸¦ 0°ú 1»çÀÌÀÇ °ªÀ¸·Î ¸¸µç´Ù.
-        // ±×¸®µå ³»ÀÇ ÁÂÇ¥¸¦ Á¦¿ÜÇÏ°í ÀüºÎ Á¦¿ÜÇÒ ¼ö ÀÖ´Ù.
+        Debug.Log("ë°±ë¶„ìœ¨ : " + percentX + ", " + percentY);
+        // x ì¢Œí‘œì™€ yì¢Œí‘œë¥¼ 0ê³¼ 1ì‚¬ì´ì˜ ê°’ìœ¼ë¡œ ë§Œë“ ë‹¤.
+        // ê·¸ë¦¬ë“œ ë‚´ì˜ ì¢Œí‘œë¥¼ ì œì™¸í•˜ê³  ì „ë¶€ ì œì™¸í•  ìˆ˜ ìžˆë‹¤.
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
         Debug.Log("0~1 : " + percentX + ", " + percentY);
 
-        // ÀÎµ¦½º°¡ 0ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î 1À» »©ÁÜ
+        // ì¸ë±ìŠ¤ê°€ 0ë¶€í„° ì‹œìž‘í•˜ë¯€ë¡œ 1ì„ ë¹¼ì¤Œ
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-        Debug.Log("±×¸®µå xÁÂÇ¥ : " + x);
+        Debug.Log("ê·¸ë¦¬ë“œ xì¢Œí‘œ : " + x);
         int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
-        Debug.Log("±×¸®µå yÁÂÇ¥ : " + y);
+        Debug.Log("ê·¸ë¦¬ë“œ yì¢Œí‘œ : " + y);
         return grid[x, y];
     }
     public List<Node> path; 
